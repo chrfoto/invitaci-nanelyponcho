@@ -1,25 +1,31 @@
 <!DOCTYPE html>
-<!-- Versión de Republicación Automática -->
+<!-- Versión Final 8.0: Gráfico de Vestimenta Gala Rediseñado (Estilo Clásico) -->
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Anel & Alfonso | Nuestra Boda</title>
     
-    <!-- Librerías -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- React & ReactDOM -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Babel -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     
     <!-- Fuentes -->
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Pinyon+Script&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
 
     <style>
+        /* Tipografías */
         .font-script { font-family: 'Pinyon Script', cursive; }
         .font-serif { font-family: 'Cormorant Garamond', serif; }
         .font-sans { font-family: 'Montserrat', sans-serif; }
         
+        /* Variables */
         :root {
             --bg-table: #D8D3C9;
             --paper-color: #F2EFE9;
@@ -33,13 +39,14 @@
             color: var(--ink-main);
             overflow-x: hidden;
             margin: 0;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .texture-linen {
             background-image: url('https://www.transparenttextures.com/patterns/linen.png');
         }
 
-        /* --- TEXTURA RICA --- */
+        /* Texturas */
         .vintage-paper {
             background-color: var(--paper-color);
             background-image: 
@@ -50,7 +57,6 @@
             position: relative;
         }
 
-        /* Efecto Papel Quemado/Viejo (Footer) */
         .burnt-paper {
             background: linear-gradient(to bottom, #F4F1EA, #DCCeba);
             background-image: 
@@ -59,17 +65,15 @@
             position: relative;
         }
         
-        /* Animaciones Sobre */
+        /* Animaciones */
         .envelope-container {
             perspective: 2000px;
             transition: opacity 1s ease-in-out, visibility 1s;
         }
-        
         .envelope-wrapper {
             transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
             transform-style: preserve-3d;
         }
-
         .envelope-flap {
             transform-origin: top;
             transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
@@ -118,13 +122,22 @@
     <script type="text/babel">
         const { useState, useEffect, useRef, useMemo, memo } = React;
 
-        // --- ILUSTRACIÓN BOTÁNICA FINA (SVG) ---
-        // Dibuja flores de nube con trazos muy delgados (0.5px)
+        // --- ILUSTRACIÓN BOTÁNICA FINA ---
         const FineFlower = memo(({ className = "", rotate = 0, scale = 1, opacity = 1 }) => {
-            
-            // Generamos posiciones fijas para los ramilletes
             const clusters = useMemo(() => {
-                const r = () => Math.random();
+                const seed = (s) => {
+                    let mask = 0xffffffff;
+                    let m_w = (123456789 + s) & mask;
+                    let m_z = (987654321 - s) & mask;
+                    return () => {
+                        m_z = (36969 * (m_z & 65535) + (m_z >> 16)) & mask;
+                        m_w = (18000 * (m_w & 65535) + (m_w >> 16)) & mask;
+                        let result = ((m_z << 16) + (m_w & 65535)) >>> 0;
+                        return result / 4294967296;
+                    };
+                };
+                const r = seed(123); 
+
                 const c1 = [...Array(18)].map(() => ({ cx: 60 + r()*50, cy: 50 + r()*50, rad: 2 + r()*2 }));
                 const c2 = [...Array(18)].map(() => ({ cx: 130 + r()*50, cy: 70 + r()*50, rad: 2 + r()*2 }));
                 const c3 = [...Array(12)].map(() => ({ cx: 90 + r()*40, cy: 30 + r()*40, rad: 1.5 + r()*2 }));
@@ -139,16 +152,12 @@
                     overflow: 'visible'
                 }}>
                     <g>
-                        {/* Tallos: Trazos muy finos (0.5) */}
                         <path d="M100 200 C 100 150 80 100 70 60" stroke="#4A3B32" strokeWidth="0.5" fill="none" />
                         <path d="M100 200 C 100 160 130 110 150 80" stroke="#4A3B32" strokeWidth="0.5" fill="none" />
                         <path d="M100 200 C 100 140 100 80 100 40" stroke="#4A3B32" strokeWidth="0.5" fill="none" />
-                        
-                        {/* Sub-ramas delicadas */}
                         <path d="M85 130 C 70 110 60 90 50 70" stroke="#4A3B32" strokeWidth="0.3" fill="none" />
                         <path d="M115 140 C 130 120 150 100 160 80" stroke="#4A3B32" strokeWidth="0.3" fill="none" />
 
-                        {/* Flores: Círculos blancos con borde fino */}
                         {clusters.c1.map((p, i) => (
                             <circle key={`c1-${i}`} cx={p.cx} cy={p.cy} r={p.rad} fill="#FFFFFF" stroke="#4A3B32" strokeWidth="0.2" />
                         ))}
@@ -164,6 +173,8 @@
         });
 
         // --- ICONOS ---
+        
+        // Sello Dorado SIN TEXTO
         const GoldWaxSeal = ({ className = "" }) => (
             <svg viewBox="0 0 100 100" className={className} style={{filter: 'drop-shadow(2px 4px 6px rgba(0,0,0,0.3))'}}>
                 <defs>
@@ -173,10 +184,27 @@
                         <stop offset="100%" stopColor="#967638" />
                     </linearGradient>
                 </defs>
+                {/* Forma exterior irregular */}
                 <path d="M50 5 C75 5 95 25 95 50 C95 75 75 95 50 95 C25 95 5 75 5 50 C5 25 25 5 50 5" fill="url(#goldGrad)" />
                 <path d="M50 10 C72 10 90 28 90 50 C90 72 72 90 50 90 C28 90 10 72 10 50 C10 28 28 10 50 10" fill="none" stroke="#967638" strokeWidth="1" />
                 <circle cx="50" cy="50" r="32" fill="none" stroke="#967638" strokeWidth="1" opacity="0.5" />
-                <text x="50" y="60" fontFamily="Pinyon Script" fontSize="40" fill="#5E4010" textAnchor="middle" style={{textShadow: '1px 1px 0px rgba(255,255,255,0.4)'}}>A&A</text>
+                {/* Diseño interno abstracto del sello */}
+                <path d="M35 50 Q50 35 65 50 Q50 65 35 50" fill="none" stroke="#7A5C25" strokeWidth="0.5" opacity="0.6"/>
+            </svg>
+        );
+
+        // Icono de Pareja Vestida (Gala) - Silueta Artística Compleja
+        const IconAttire = ({ className = "" }) => (
+            <svg viewBox="0 0 100 100" className={className} fill="currentColor">
+                {/* HOMBRE (Smoking) */}
+                <path d="M38 18 C38 15 40 13 43 13 C46 13 48 15 48 18 C48 20 47 21 46 22 L46 24 L52 26 L53 45 L50 45 L50 90 L44 90 L44 55 L42 55 L42 90 L36 90 L36 45 L33 45 L34 26 L40 24 L40 22 C39 21 38 20 38 18 Z" />
+                
+                {/* MUJER (Vestido Largo) */}
+                <path d="M65 20 C65 17 67 15 69 15 C71 15 73 17 73 20 C73 21 72 23 71 23 L71 25 C75 27 78 30 76 40 C75 45 80 85 85 90 L55 90 C60 85 63 45 62 40 C60 30 63 27 67 25 L67 23 C66 23 65 21 65 20 Z" />
+                
+                {/* Detalles Finos (Corbatín y Escote) en negativo */}
+                <path d="M42 24 L44 24 L43 25 Z" fill="var(--paper-color)" />
+                <path d="M67 25 Q69 30 71 25" stroke="var(--paper-color)" strokeWidth="0.5" fill="none" />
             </svg>
         );
 
@@ -257,15 +285,15 @@
                             <div className="absolute inset-0 texture-linen opacity-60"></div>
                             
                             {/* ILUSTRACIONES BOTÁNICAS FINAS (En las esquinas) */}
-                            <div className="absolute -top-10 -left-10 z-10 w-96 h-96">
+                            <div className="absolute -top-10 -left-10 z-10 w-64 h-64 md:w-96 md:h-96">
                                 <FineFlower className="w-full h-full" rotate={-25} scale={1.3} />
                             </div>
-                            <div className="absolute -bottom-10 -right-10 z-10 w-96 h-96">
+                            <div className="absolute -bottom-10 -right-10 z-10 w-64 h-64 md:w-96 md:h-96">
                                 <FineFlower className="w-full h-full" rotate={155} scale={1.3} />
                             </div>
 
-                            {/* EL SOBRE */}
-                            <div className="relative w-80 md:w-96 h-56 md:h-64 cursor-pointer envelope-wrapper z-20 group" onClick={handleOpen}>
+                            {/* EL SOBRE (Tamaño Responsive) */}
+                            <div className="relative w-72 md:w-96 h-48 md:h-64 cursor-pointer envelope-wrapper z-20 group" onClick={handleOpen}>
                                 {/* Sombra realista */}
                                 <div className="absolute inset-0 bg-black/40 blur-2xl transform translate-y-12 scale-90 rounded-full"></div>
                                 
@@ -286,9 +314,9 @@
                                      }}>
                                 </div>
 
-                                {/* Sello */}
+                                {/* Sello Limpio sin texto */}
                                 <div className="absolute top-[35%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-40 envelope-flap transition-transform group-hover:scale-110 duration-300">
-                                    <GoldWaxSeal className="w-24 h-24" />
+                                    <GoldWaxSeal className="w-20 h-20 md:w-24 md:h-24" />
                                 </div>
                             </div>
                             
@@ -305,25 +333,27 @@
                     </button>
 
                     {/* --- CONTENIDO DE LA CARTA --- */}
-                    <main className={`max-w-4xl mx-auto py-12 px-4 relative z-10 letter-content ${isOpen ? 'letter-visible' : ''}`}>
+                    <main className={`max-w-4xl mx-auto py-8 md:py-12 px-4 relative z-10 letter-content ${isOpen ? 'letter-visible' : ''}`}>
                         
                         {/* HOJA 1: PORTADA */}
                         <div className="vintage-paper p-8 md:p-16 text-center shadow-2xl mb-12 mx-auto relative overflow-hidden">
                             {/* Flores Finas en Esquinas */}
-                            <div className="absolute -top-20 -left-20 w-80 h-80 z-0 opacity-80">
+                            <div className="absolute -top-16 -left-16 w-64 h-64 md:w-80 md:h-80 z-0 opacity-80">
                                 <FineFlower className="w-full h-full" rotate={-45} scale={1} />
                             </div>
-                            <div className="absolute -bottom-20 -right-20 w-80 h-80 z-0 opacity-80">
+                            <div className="absolute -bottom-16 -right-16 w-64 h-64 md:w-80 md:h-80 z-0 opacity-80">
                                 <FineFlower className="w-full h-full" rotate={135} scale={1} />
                             </div>
                             
                             <div className="relative z-10">
                                 <p className="font-sans text-xs tracking-[0.4em] text-[#967638] uppercase mb-8">Nos Casamos</p>
-                                <h1 className="font-script text-7xl md:text-9xl text-[#2C2420] mb-4 leading-none">
-                                    Anel <span className="text-[#C5A059] font-serif text-6xl">&</span> Alfonso
+                                {/* NOMBRE AJUSTADO: & del mismo color que nombres */}
+                                <h1 className="font-script text-6xl md:text-9xl text-[#2C2420] mb-4 leading-none">
+                                    Anel <span className="font-serif text-5xl md:text-6xl text-[#2C2420]">&</span> Alfonso
                                 </h1>
                                 <div className="border-t border-b border-[#C5A059] w-fit mx-auto py-2 px-8 mb-8">
-                                    <p className="text-3xl italic text-[#2C2420]">02 . 05 . 2026</p>
+                                    {/* FECHA EN UNA LÍNEA (whitespace-nowrap) */}
+                                    <p className="text-xl md:text-3xl italic text-[#2C2420] whitespace-nowrap">02 . 05 . 2026</p>
                                 </div>
                                 <p className="text-lg text-[#2C2420]/70 italic max-w-md mx-auto">
                                     "El amor es la única flor que crece y florece sin la ayuda de las estaciones."
@@ -333,7 +363,7 @@
 
                         {/* HOJA 2: PADRES - SEPARADA DE LA ISLA */}
                         <div className="vintage-paper p-8 md:p-12 shadow-2xl mb-16 relative overflow-hidden">
-                            <div className="absolute top-1/2 left-0 w-48 h-48 -translate-x-1/2 -translate-y-1/2 opacity-30">
+                            <div className="absolute top-1/2 left-0 w-32 h-32 md:w-48 md:h-48 -translate-x-1/2 -translate-y-1/2 opacity-30">
                                 <FineFlower className="w-full h-full" rotate={90} />
                             </div>
 
@@ -354,8 +384,8 @@
 
                             <div className="text-center border-t border-[#C5A059]/20 pt-8 relative z-10">
                                 <h3 className="font-sans text-xs uppercase tracking-widest text-[#967638] mb-4">Padrinos de Velación</h3>
-                                <p className="text-xl text-[#2C2420]">María Fernanda Carrillo Cano</p>
-                                <p className="text-xl text-[#2C2420]">José Hermosillo Revulcaba</p>
+                                <p className="text-lg md:text-xl text-[#2C2420]">María Fernanda Carrillo Cano</p>
+                                <p className="text-lg md:text-xl text-[#2C2420]">José Hermosillo Revulcaba</p>
                             </div>
                         </div>
 
@@ -369,11 +399,11 @@
                             <div className="aspect-[21/9] overflow-hidden bg-gray-200 relative z-10">
                                  <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage: `url('${imgCouple}')`, filter: 'sepia(0.3) contrast(0.9)'}}></div>
                                  <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-[#F4F1EA]">
-                                     <h3 className="font-script text-5xl mb-4 text-[#C5A059]">Faltan</h3>
-                                     <div className="flex gap-8 text-2xl font-serif">
-                                         <div className="text-center"><span className="block text-4xl">{timeLeft.d}</span><span className="text-xs font-sans font-normal tracking-widest">DÍAS</span></div>
-                                         <div className="text-center"><span className="block text-4xl">{timeLeft.h}</span><span className="text-xs font-sans font-normal tracking-widest">HRS</span></div>
-                                         <div className="text-center"><span className="block text-4xl">{timeLeft.m}</span><span className="text-xs font-sans font-normal tracking-widest">MIN</span></div>
+                                     <h3 className="font-script text-4xl md:text-5xl mb-4 text-[#C5A059]">Faltan</h3>
+                                     <div className="flex gap-4 md:gap-8 text-xl md:text-2xl font-serif">
+                                         <div className="text-center"><span className="block text-3xl md:text-4xl">{timeLeft.d}</span><span className="text-xs font-sans font-normal tracking-widest">DÍAS</span></div>
+                                         <div className="text-center"><span className="block text-3xl md:text-4xl">{timeLeft.h}</span><span className="text-xs font-sans font-normal tracking-widest">HRS</span></div>
+                                         <div className="text-center"><span className="block text-3xl md:text-4xl">{timeLeft.m}</span><span className="text-xs font-sans font-normal tracking-widest">MIN</span></div>
                                      </div>
                                  </div>
                             </div>
@@ -381,12 +411,12 @@
 
                         {/* HOJA 3: ITINERARIO */}
                         <div className="vintage-paper p-8 md:p-12 shadow-2xl mb-12 text-center relative overflow-hidden">
-                            <div className="absolute -top-10 -right-10 w-40 h-40 opacity-40">
+                            <div className="absolute -top-10 -right-10 w-32 h-32 md:w-40 md:h-40 opacity-40">
                                 <FineFlower className="w-full h-full" rotate={100} />
                             </div>
                             
-                            <h2 className="font-script text-5xl text-[#2C2420] mb-2 relative z-10">Ceremonia & Celebración</h2>
-                            <p className="text-[#C5A059] italic text-xl mb-12 relative z-10">Sábado, 2 de Mayo</p>
+                            <h2 className="font-script text-4xl md:text-5xl text-[#2C2420] mb-2 relative z-10">Ceremonia & Celebración</h2>
+                            <p className="text-[#C5A059] italic text-lg md:text-xl mb-12 relative z-10">Sábado, 2 de Mayo</p>
 
                             <div className="grid md:grid-cols-2 gap-8 relative z-10">
                                 <div className="p-6 border border-[#C5A059]/30 bg-[#F9F7F2]/80">
@@ -410,7 +440,7 @@
 
                         {/* GALERÍA */}
                         <div className="mb-12">
-                            <h2 className="text-center font-script text-6xl text-[#2C2420] mb-8">Nuestra Historia</h2>
+                            <h2 className="text-center font-script text-5xl md:text-6xl text-[#2C2420] mb-8">Nuestra Historia</h2>
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                                 {gallery.map((img, i) => (
                                     <div key={i} className={`bg-white p-2 shadow-md transform hover:-translate-y-1 transition-transform ${img.horiz ? 'col-span-2' : 'col-span-1'}`}>
@@ -423,7 +453,7 @@
 
                         {/* HOJA 4: DETALLES FINALES (TEXTURA QUEMADA) */}
                         <div className="burnt-paper p-8 md:p-16 text-center shadow-2xl relative overflow-hidden">
-                            <div className="absolute -bottom-20 -left-20 w-64 h-64 opacity-30">
+                            <div className="absolute -bottom-20 -left-20 w-48 h-48 md:w-64 md:h-64 opacity-30">
                                 <FineFlower className="w-full h-full" rotate={45} />
                             </div>
 
@@ -433,17 +463,17 @@
                             </p>
                             <div className="flex flex-col md:flex-row justify-center gap-6 mb-12 relative z-10">
                                 <a href="https://maps.app.goo.gl/okqRddc7gwzAi8fw8?g_st=aw" target="_blank" className="block p-4 border border-[#C5A059]/30 hover:bg-[#F4F1EA] transition-colors">
-                                    <span className="block text-lg text-[#2C2420]">Hotel Boutique & Spa</span>
+                                    <span className="block text-lg text-[#2C2420]">Hotel Comfort Inn Morelia</span>
                                     <span className="text-xs uppercase text-[#C5A059]">Ver Mapa</span>
                                 </a>
                                 <a href="https://maps.app.goo.gl/bHc3UiMfYa2z3sBC7?g_st=aw" target="_blank" className="block p-4 border border-[#C5A059]/30 hover:bg-[#F4F1EA] transition-colors">
-                                    <span className="block text-lg text-[#2C2420]">City Express Suites</span>
+                                    <span className="block text-lg text-[#2C2420]">Hotel Punta Galería</span>
                                     <span className="text-xs uppercase text-[#C5A059]">Ver Mapa</span>
                                 </a>
                             </div>
 
                             <div className="border-t border-[#C5A059]/30 pt-10 relative z-10">
-                                <h2 className="font-script text-5xl text-[#2C2420] mb-4">Mesa de Regalos</h2>
+                                <h2 className="font-script text-4xl md:text-5xl text-[#2C2420] mb-4">Mesa de Regalos</h2>
                                 <p className="italic text-[#2C2420] mb-8 px-4 text-lg">
                                     "Su presencia es nuestro mejor regalo. Si desean obsequiarnos algo más, agradeceremos que sea mediante transferencia bancaria."
                                 </p>
@@ -475,8 +505,18 @@
 
                             {/* FOOTER FINAL */}
                             <div className="mt-16 pt-8 border-t border-[#C5A059]/30 relative z-10">
-                                <p className="font-sans text-xs uppercase font-bold tracking-widest text-[#2C2420] mb-2">GALA</p>
-                                <p className="text-sm italic text-[#2C2420]/80 mb-4">(Celebración de noche en jardín)</p>
+                                {/* SECCIÓN DE VESTIMENTA CON ICONO */}
+                                <div className="mb-8 flex flex-col items-center">
+                                    <p className="font-sans text-xs uppercase font-bold tracking-widest text-[#2C2420] mb-4">Código de vestimenta</p>
+                                    <div className="mb-4">
+                                        <IconAttire className="w-16 h-16 text-[#2C2420]" />
+                                    </div>
+                                    <p className="font-serif text-xl italic text-[#2C2420] mb-2">GALA</p>
+                                    <p className="text-sm italic text-[#2C2420]/80">(Celebración de noche en jardín)</p>
+                                </div>
+
+                                <div className="w-12 h-[1px] bg-[#C5A059] mx-auto my-6 opacity-50"></div>
+                                
                                 <p className="text-[#967638] italic px-4 mb-8">
                                     "Amamos a los niños, pero queremos que esta noche sea para disfrutar entre adultos."
                                 </p>
