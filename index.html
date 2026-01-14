@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Versión Final 8.0: Gráfico de Vestimenta Gala Rediseñado (Estilo Clásico) -->
+<!-- Versión Final 11.0: Solo WhatsApp y Corrección Apellido -->
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -270,13 +270,18 @@
                 { url: "https://i.imgur.com/TZUNcqk.jpg", horiz: true }, 
                 { url: "https://i.imgur.com/nM8Z5ik.jpg", horiz: true }, 
                 { url: "https://i.imgur.com/gTMaGR2.jpg", horiz: false }, 
-                { url: "https://i.imgur.com/Dtd9CdK.jpg", horiz: false }
+                { url: "https://i.imgur.com/Dtd9CdK.jpg", horiz: false },
+                // Nuevas fotos agregadas
+                { url: "https://i.imgur.com/CerOsSw.jpg", horiz: false },
+                { url: "https://i.imgur.com/tDMpzMk.jpg", horiz: false },
+                { url: "https://i.imgur.com/GbYS20q.jpg", horiz: false }
             ];
 
             return (
                 <div className={`min-h-screen relative font-serif ${isOpen ? 'opening' : ''}`}>
                     
-                    <audio ref={audioRef} loop src="https://ia800504.us.archive.org/33/items/ErikSatieGymnopedieNo1/ErikSatieGymnopedieNo1.mp3" />
+                    {/* CORRECCIÓN DE AUDIO: Comentario JSX válido */}
+                    <audio ref={audioRef} loop src="https://media.vocaroo.com/mp3/1e32AD6GQtmH" type="audio/mp3" />
 
                     {/* --- ESCENA DEL SOBRE (FLATLAY) --- */}
                     {!isOpen && (
@@ -378,7 +383,7 @@
                                 <div>
                                     <h3 className="text-xl italic text-[#C5A059] mb-2">Del Novio</h3>
                                     <p className="text-lg">Dora Luz Gavia Ortiz <span className="text-xs">†</span></p>
-                                    <p className="text-lg">Alfonso Eliseo Córdova Loza <span className="text-xs">†</span></p>
+                                    <p className="text-lg">Alfonso Eliseo Cordova Loza <span className="text-xs">†</span></p>
                                 </div>
                             </div>
 
@@ -508,8 +513,8 @@
                                 {/* SECCIÓN DE VESTIMENTA CON ICONO */}
                                 <div className="mb-8 flex flex-col items-center">
                                     <p className="font-sans text-xs uppercase font-bold tracking-widest text-[#2C2420] mb-4">Código de vestimenta</p>
-                                    <div className="mb-4">
-                                        <IconAttire className="w-16 h-16 text-[#2C2420]" />
+                                    <div className="mb-4 w-16 h-16 text-[#2C2420]">
+                                        <IconAttire className="w-full h-full" />
                                     </div>
                                     <p className="font-serif text-xl italic text-[#2C2420] mb-2">GALA</p>
                                     <p className="text-sm italic text-[#2C2420]/80">(Celebración de noche en jardín)</p>
@@ -535,8 +540,7 @@
                                 <button onClick={() => setRsvpModal(false)} className="absolute top-4 right-4 text-[#2C2420] hover:text-[#C5A059]"><IconClose /></button>
                                 <h3 className="font-script text-4xl text-[#2C2420] text-center mb-6">Confirmar</h3>
                                 <div className="space-y-4">
-                                    <a href="https://wa.me/5214437314502?text=Confirmo%20asistencia" target="_blank" className="block w-full bg-[#25D366] text-white text-center py-3 font-bold text-sm tracking-wide shadow hover:opacity-90">WhatsApp</a>
-                                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdRkaVPAQwRMsQCzOkyVH7m3oRt7j-NR5-mcFthffY-Vb4jLA/viewform" target="_blank" className="block w-full bg-[#2C2420] text-[#F4F1EA] text-center py-3 font-bold text-sm tracking-wide shadow hover:bg-[#C5A059]">Formulario</a>
+                                    <a href="https://wa.me/5214438632225?text=¡Hola!%20Confirmo%20mi%20asistencia%20a%20la%20boda%20de%20Anel%20y%20Alfonso." target="_blank" className="block w-full bg-[#25D366] text-white text-center py-3 font-bold text-sm tracking-wide shadow hover:opacity-90">Enviar WhatsApp</a>
                                 </div>
                             </div>
                         </div>
