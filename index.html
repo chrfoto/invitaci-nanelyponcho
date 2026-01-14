@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Versión Final 11.0: Solo WhatsApp y Corrección Apellido -->
+<!-- Versión Final 12.0: Ajustes Hora, Apellido y Galería -->
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -193,7 +193,7 @@
             </svg>
         );
 
-        // Icono de Pareja Vestida (Gala) - Silueta Artística Compleja
+        // Icono de Pareja Vestida (Gala)
         const IconAttire = ({ className = "" }) => (
             <svg viewBox="0 0 100 100" className={className} fill="currentColor">
                 {/* HOMBRE (Smoking) */}
@@ -271,16 +271,17 @@
                 { url: "https://i.imgur.com/nM8Z5ik.jpg", horiz: true }, 
                 { url: "https://i.imgur.com/gTMaGR2.jpg", horiz: false }, 
                 { url: "https://i.imgur.com/Dtd9CdK.jpg", horiz: false },
-                // Nuevas fotos agregadas
+                // Nuevas fotos
                 { url: "https://i.imgur.com/CerOsSw.jpg", horiz: false },
                 { url: "https://i.imgur.com/tDMpzMk.jpg", horiz: false },
-                { url: "https://i.imgur.com/GbYS20q.jpg", horiz: false }
+                // Ajuste Foto Pata: horiz: true para que ocupe todo el ancho
+                { url: "https://i.imgur.com/GbYS20q.jpg", horiz: true }
             ];
 
             return (
                 <div className={`min-h-screen relative font-serif ${isOpen ? 'opening' : ''}`}>
                     
-                    {/* CORRECCIÓN DE AUDIO: Comentario JSX válido */}
+                    {/* CORRECCIÓN DE AUDIO: Enlace directo */}
                     <audio ref={audioRef} loop src="https://media.vocaroo.com/mp3/1e32AD6GQtmH" type="audio/mp3" />
 
                     {/* --- ESCENA DEL SOBRE (FLATLAY) --- */}
@@ -390,7 +391,7 @@
                             <div className="text-center border-t border-[#C5A059]/20 pt-8 relative z-10">
                                 <h3 className="font-sans text-xs uppercase tracking-widest text-[#967638] mb-4">Padrinos de Velación</h3>
                                 <p className="text-lg md:text-xl text-[#2C2420]">María Fernanda Carrillo Cano</p>
-                                <p className="text-lg md:text-xl text-[#2C2420]">José Hermosillo Revulcaba</p>
+                                <p className="text-lg md:text-xl text-[#2C2420]">José Hermosillo Ruvalcaba</p>
                             </div>
                         </div>
 
@@ -434,7 +435,8 @@
                                 </div>
                                 <div className="p-6 border border-[#C5A059]/30 bg-[#F9F7F2]/80">
                                     <h3 className="text-2xl text-[#2C2420] mb-1">Recepción</h3>
-                                    <p className="font-sans font-bold text-[#967638] text-sm mb-2">6:30 PM</p>
+                                    {/* HORA ACTUALIZADA: 7:00 PM */}
+                                    <p className="font-sans font-bold text-[#967638] text-sm mb-2">7:00 PM</p>
                                     <p className="italic text-gray-600 mb-4">Finca La Vikina</p>
                                     <a href="https://maps.app.goo.gl/GRgWuJnmb9sLjZrB7" target="_blank" className="text-xs uppercase text-[#C5A059] border-b border-[#C5A059] hover:text-[#2C2420] pb-1 inline-flex items-center gap-2">
                                         <IconMap /> Ver Mapa
